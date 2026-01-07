@@ -1,4 +1,4 @@
-# [agent.tbrpwn]: TBR-PWN AI Agent Loop Promote Engineering
+# agent.tbrpwn: TBR-PWN AI Agent Loop Promote Engineering
 
 `agent.tbrpwn` is a file-driven workflow for running an AI agent (or a team) with **high auditability** and **low drift**.
 
@@ -15,6 +15,32 @@ Key Note:
 This folder is designed to be copied into a project and used as the operational contract for an AI coding/automation/research agent.
 
 ---
+
+## Table of Contents
+
+- [agent.tbrpwn: TBR-PWN AI Agent Loop Promote Engineering](#agenttbrpwn-tbr-pwn-ai-agent-loop-promote-engineering)
+  - [Table of Contents](#table-of-contents)
+  - [What you get](#what-you-get)
+  - [Start here](#start-here)
+  - [Folder layout](#folder-layout)
+    - [Outer loop state (authoritative)](#outer-loop-state-authoritative)
+    - [Inner loop state (phase-local)](#inner-loop-state-phase-local)
+  - [The workflow (outer loop)](#the-workflow-outer-loop)
+    - [Outer cycle](#outer-cycle)
+    - [Stop condition (objective)](#stop-condition-objective)
+  - [The workflow (inner PWN loop)](#the-workflow-inner-pwn-loop)
+    - [Required versioning](#required-versioning)
+    - [Meaningful PLAN change (strict)](#meaningful-plan-change-strict)
+    - [PLAN stability (stop condition for a level)](#plan-stability-stop-condition-for-a-level)
+    - [Anti-stall rule](#anti-stall-rule)
+  - [Quality gates (objective + auditable)](#quality-gates-objective--auditable)
+    - [Per-cycle requirement](#per-cycle-requirement)
+    - [Hard rule (do not violate)](#hard-rule-do-not-violate)
+  - [Merge rules (provable)](#merge-rules-provable)
+  - [How to use this with an AI agent (suggested)](#how-to-use-this-with-an-ai-agent-suggested)
+  - [Common usage patterns](#common-usage-patterns)
+  - [Where to customize](#where-to-customize)
+  - [Principle Explanation](#principle-explanation)
 
 ## What you get
 
