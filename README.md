@@ -8,6 +8,10 @@ It combines:
 - **Human-like TBR outer loop**: `TARGET → BEHAVE → REMEMBER` as stable states on disk.
 - **Machine-like PWN inner loop**: `PLAN → WORK → NOTE` inside each phase to iterate without losing rigor.
 
+Key Note:
+- **TBR essentially simulates the process by which humans explore and handle a task or solve a problem.**
+- **PWN is introduced to enhance the divergent and iterative capabilities of TBR.**
+
 This folder is designed to be copied into a project and used as the operational contract for an AI coding/automation/research agent.
 
 ---
@@ -166,3 +170,31 @@ If you copy this folder into a new project, typical customizations are:
 - Keep `tbr/REMEMBER.md` short by compressing aggressively.
 
 Avoid loosening the hard rules unless you also loosen acceptance expectations.
+
+
+##  Principle Explanation
+**1. Target Phase:**
+
+The user provides an initial target. The LLM begins the level 1 plan–work–note loop based on this target. The level 1 loop is essentially a variant of the built-in TBR loop, with the goal of refining target, behave, and remember.
+
+The level 1 plan starts by generating a plan from the initial target, which then updates the level 1 work. During the planning process, the level 1 note is also updated with written records. Based on the level 1 plan and level 1 note, the system executes the level 1 work. While performing the work, the level 1 note is updated again. Then, based on the results of the level 1 work and the level 1 note, the level 1 plan is updated. The new plan leads to updates in the level 1 work and level 1 note.
+
+This cycle continues until the level 1 plan no longer updates, at which point the level 1 PWN loop is complete. At the end of the level 1 PWN loop, the current level 1 plan, work, and note are used to update target, behave, and remember. The TBR loop then enters the behave phase.
+
+**2. Behave Phase:**
+
+The LLM executes the level 2 PWN loop based on the current target, behave, and remember. The goal of the level 2 PWN loop is to refine behave and remember.
+
+The system updates the level 2 plan according to the current target, behave, and remember. Then, based on the level 2 plan, it updates the level 2 work and level 2 note. Using the level 2 plan and note, the system executes the level 2 work. During the work process, the level 2 note is updated again. Based on the results of the level 2 work and the level 2 note, a new level 2 plan is generated. The new plan leads to updates in the level 2 work and note.
+
+This cycle continues until the level 2 plan no longer updates, at which point the level 2 PWN loop is complete. At the end of the level 2 PWN loop, the current level 2 plan, work, and note are used to update behave and remember. The TBR loop then enters the remember phase.
+
+**3. Remember Phase:**
+
+The LLM executes the level 3 PWN loop based on the current target, behave, and remember. The goal of the level 3 PWN loop is to refine remember.
+
+The system updates the level 3 plan according to the current target, behave, and remember. Then, based on the level 3 plan, it updates the level 3 work and level 3 note. Using the level 3 plan and note, the system executes the level 3 work. During the work process, the level 3 note is updated again. Based on the results of the level 3 work and the level 3 note, a new level 3 plan is generated. The new plan leads to updates in the level 3 work and note.
+
+This cycle continues until the level 3 plan no longer updates, at which point the level 3 PWN loop is complete. At the end of the level 3 PWN loop, the current level 3 plan, work, and note are used to update remember.
+
+Finally, based on the current behave and remember, a new target is generated. The system then re-enters the initial target phase, repeating the cycle. The process continues until the target is fully achieved and no longer updates, at which point the entire TBR–PWN loop ends.
