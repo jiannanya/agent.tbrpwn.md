@@ -1,4 +1,4 @@
-# Level1 PLAN.md — Target phase PWN
+# Level2 PLAN.md — Behave phase PWN (runtime)
 
 ## PLAN.v1
 
@@ -6,26 +6,23 @@
 - N/A (initial)
 
 ### Purpose
-Refine TARGET/BEHAVE/REMEMBER so execution can start.
+Iteratively improve BEHAVE and REMEMBER so the next execution step is minimal, safe, and verifiable.
 
 ### Inputs
 - `.tbrpwn/tbr/TARGET.md`
-- `.tbrpwn/pwn/level1/NOTE.md`
-- `.tbrpwn/pwn/level1/WORK.md`
+- `.tbrpwn/tbr/BEHAVE.md`
+- `.tbrpwn/tbr/REMEMBER.md`
+- `.tbrpwn/pwn/level2/NOTE.md`
+- `.tbrpwn/pwn/level2/WORK.md`
 
 ### Plan (ordered)
-1. Clarify Goal/Constraints/Acceptance/Non-goals
-2. Draft BEHAVE: one smallest step + verify + rollback + safety
-3. Seed REMEMBER: facts/assumptions/unknowns + evidence plan
-4. Identify blocking questions
-
-### Success criteria
-- TARGET acceptance is checkable.
-- BEHAVE has exactly one actionable step and objective verification.
-- REMEMBER contains only durable signal.
+1. Ensure BEHAVE is the smallest step toward TARGET
+2. Define exact verification and pass signal
+3. Execute one step (or a smaller sub-step)
+4. Record evidence and decisions
 
 ### Stop condition
-Stop Level1 when PLAN is stable (no meaningful delta across 2 versions).
+Stop Level2 when PLAN is stable (no meaningful delta across 2 versions).
 
 ### Meaningful change rule
 PLAN changes are meaningful only if they change task set, ordering, success criteria, or safety/rollback.
@@ -41,6 +38,5 @@ If any box is unchecked, the PLAN is not stable.
 
 ### Merge output (when stable)
 Merge to:
-- `.tbrpwn/tbr/TARGET.md`
 - `.tbrpwn/tbr/BEHAVE.md`
 - `.tbrpwn/tbr/REMEMBER.md`

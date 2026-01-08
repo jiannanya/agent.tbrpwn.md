@@ -2,6 +2,10 @@
 
 This folder is the stable outer-loop state.
 
+Note:
+- The runtime state must be updated under `.tbrpwn/tbr/`.
+- The repo-root `tbr/` folder is template/reference.
+
 ## Files
 - `TARGET.md` — goal/constraints/acceptance (source of truth)
 - `BEHAVE.md` — next-step policy derived from TARGET
@@ -16,7 +20,10 @@ This folder is the stable outer-loop state.
 - Keep each file short.
 - Evidence beats description.
 - One outer cycle should produce either: checked acceptance or new objective evidence.
-- Each outer cycle must record Gate check results (PASS/FAIL + evidence pointers) inside TARGET/BEHAVE/REMEMBER.
+- Each outer cycle must record Gate check results (PASS/FAIL + evidence pointers) inside `.tbrpwn/tbr/{TARGET,BEHAVE,REMEMBER}.md`.
+
+## Per-cycle log
+- Append `.tbrpwn/LOG.md` after each full outer cycle.
 
 ## Quality gates
 - TARGET must satisfy the quality gate in `TARGET.md` (checkable acceptance + evidence expectations).

@@ -19,6 +19,12 @@ Strengthen the TBR loop by embedding a PWN loop inside each phase:
 - Prefer idempotent actions; make retries safe.
 - PWN ends only when PLAN stabilizes (not when “it feels done”).
 - At PWN completion, merge (PLAN/WORK/NOTE) back into TBR according to the phase.
+- All execution updates must be written under `.tbrpwn/`.
+- After each full outer cycle, append `.tbrpwn/LOG.md`.
+
+Runtime bootstrap (required):
+- If `.tbrpwn/` is missing or corrupted, recreate it by copying the templates from `tbr/` and `pwn/` (or restore from VCS).
+- Do not edit the template folders (`tbr/`, `pwn/`) during execution.
 
 ---
 
@@ -51,7 +57,7 @@ When a level’s PLAN becomes stable, perform a merge back into TBR:
 - Keep BEHAVE to “one smallest step only”.
 
 Additional constraint:
-- TARGET/BEHAVE/REMEMBER must pass their explicit quality gates (see `tbr/*.md`).
+- TARGET/BEHAVE/REMEMBER must pass their explicit quality gates (see `.tbrpwn/tbr/*.md`).
 - Hard rule: you may only claim “passes quality gate” if the file’s Gate check result is `PASS` AND the evidence pointers list is non-empty.
 
 ---
@@ -59,67 +65,67 @@ Additional constraint:
 ## Outer loop: TBR-PWN (repeat until TARGET completes)
 
 ### Phase 1: Target phase (Level1 PWN)
-**Input**: user-provided init target in `tbr/TARGET.md`.
+**Input**: user-provided init target in `.tbrpwn/tbr/TARGET.md`.
 
 Goal: refine TARGET/BEHAVE/REMEMBER enough to start execution.
 
 **At completion (merge)**:
-- Update `tbr/TARGET.md`
-- Update `tbr/BEHAVE.md`
-- Update `tbr/REMEMBER.md`
+- Update `.tbrpwn/tbr/TARGET.md`
+- Update `.tbrpwn/tbr/BEHAVE.md`
+- Update `.tbrpwn/tbr/REMEMBER.md`
 
 **Level1 merge checklist**
-Update `tbr/TARGET.md`:
+Update `.tbrpwn/tbr/TARGET.md`:
 - Goal: one sentence
 - Constraints: only hard constraints
 - Non-goals: explicit scope exclusions
 - Acceptance: checkable items with clear evidence expectations
 - Open questions: only blocking questions
 
-Update `tbr/BEHAVE.md`:
+Update `.tbrpwn/tbr/BEHAVE.md`:
 - Next step: exactly one smallest action
 - What to touch: concrete artifacts/files
 - Verify: objective pass signal
 - Rollback + safety: explicit and minimal
 
-Update `tbr/REMEMBER.md`:
+Update `.tbrpwn/tbr/REMEMBER.md`:
 - Confirmed facts: only with evidence pointers
 - Decisions: only durable decisions + rationale
 - Evidence plan: if evidence doesn’t exist yet, define how it will be produced
 - Blockers/risks: concise and actionable
 
 ### Phase 2: Behave phase (Level2 PWN)
-**Input**: current TARGET/BEHAVE/REMEMBER.
+**Input**: current `.tbrpwn/tbr/{TARGET,BEHAVE,REMEMBER}.md`.
 
 Goal: improve BEHAVE and REMEMBER so execution is safe, minimal, and verifiable.
 
 **At completion (merge)**:
-- Update `tbr/BEHAVE.md`
-- Update `tbr/REMEMBER.md`
+- Update `.tbrpwn/tbr/BEHAVE.md`
+- Update `.tbrpwn/tbr/REMEMBER.md`
 
 **Level2 merge checklist**
-Update `tbr/BEHAVE.md`:
+Update `.tbrpwn/tbr/BEHAVE.md`:
 - Next step: remain one step; split if it grew
 - Verify: exact commands/checks + pass signal
 - Rollback: reversible path
 - What to touch: precise list
 
-Update `tbr/REMEMBER.md`:
+Update `.tbrpwn/tbr/REMEMBER.md`:
 - Facts: only what WORK produced/observed
 - Decisions: record execution-time decisions + why
 - Evidence: minimal excerpt or pointer
 - Risks/limitations: new discoveries only
 
 ### Phase 3: Remember phase (Level3 PWN)
-**Input**: current TARGET/BEHAVE/REMEMBER.
+**Input**: current `.tbrpwn/tbr/{TARGET,BEHAVE,REMEMBER}.md`.
 
 Goal: make REMEMBER minimal, correct, and maximally useful.
 
 **At completion (merge)**:
-- Update `tbr/REMEMBER.md`
+- Update `.tbrpwn/tbr/REMEMBER.md`
 
 **Level3 merge checklist**
-Update `tbr/REMEMBER.md`:
+Update `.tbrpwn/tbr/REMEMBER.md`:
 - Delete stale assumptions and redundant notes
 - Convert vague statements into evidence pointers
 - Keep only: facts, decisions, evidence, blockers, risks

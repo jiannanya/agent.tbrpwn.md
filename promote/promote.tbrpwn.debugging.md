@@ -37,6 +37,10 @@
 ## Quality gates (hard rule)
 - You may only claim “passes quality gate” if the file’s Gate check result is `PASS` AND the evidence pointers list is non-empty.
 
+## Runtime location
+- Write execution updates under `.tbrpwn/tbr/` and `.tbrpwn/pwn/`.
+- Append `.tbrpwn/LOG.md` after each full outer cycle.
+
 ## Target update policy
 - If reproduction becomes reliable, lock the repro steps.
 - If root cause unclear after iterations, shrink the hypothesis scope.

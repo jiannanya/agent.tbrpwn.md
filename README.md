@@ -22,9 +22,11 @@ This folder is designed to be copied into a project and used as the operational 
   - [Table of Contents](#table-of-contents)
   - [What you get](#what-you-get)
   - [Start here](#start-here)
+  - [Bootstrap / reset runtime state](#bootstrap--reset-runtime-state)
   - [Folder layout](#folder-layout)
     - [Outer loop state (authoritative)](#outer-loop-state-authoritative)
     - [Inner loop state (phase-local)](#inner-loop-state-phase-local)
+    - [Per-cycle log (required)](#per-cycle-log-required)
   - [The workflow (outer loop)](#the-workflow-outer-loop)
     - [Outer cycle](#outer-cycle)
     - [Stop condition (objective)](#stop-condition-objective)
@@ -55,37 +57,57 @@ This folder is designed to be copied into a project and used as the operational 
 ## Start here
 
 1) Read the entry point:
-- `promote.tbrpwn.main.md`
+- `promote/promote.tbrpwn.main.md`
 
 2) Or if you want the full operating contract (recommended for agents), read:
 - `agent.tbrpwn.md`
 
 3) Or choose exactly one type-specific promote:
-- `promote.tbrpwn.coding.md`
-- `promote.tbrpwn.debugging.md`
-- `promote.tbrpwn.research.md`
-- `promote.tbrpwn.product.md`
-- `promote.tbrpwn.automation.md`
+- `promote/promote.tbrpwn.coding.md`
+- `promote/promote.tbrpwn.debugging.md`
+- `promote/promote.tbrpwn.research.md`
+- `promote/promote.tbrpwn.product.md`
+- `promote/promote.tbrpwn.automation.md`
+
+---
+
+## Bootstrap / reset runtime state
+
+Runtime state must live under `.tbrpwn/`.
+
+If `.tbrpwn/` already exists, do not re-copy templates—just keep updating `.tbrpwn/*`.
+
+If you need to start fresh:
+- Delete `.tbrpwn/`.
+- Recreate it by copying templates from `tbr/` and `pwn/` (or restore from your VCS).
+- Then initialize `.tbrpwn/tbr/TARGET.md` and begin the loop.
 
 ---
 
 ## Folder layout
 
+Runtime state location:
+- All execution updates must go under `.tbrpwn/`.
+- Repo-root `tbr/` and `pwn/` are templates/reference.
+
 ### Outer loop state (authoritative)
-- `tbr/TARGET.md`
+- `.tbrpwn/tbr/TARGET.md`
   - Goal, constraints, non-goals, acceptance checkboxes (with evidence expectation), blocking questions.
   - Includes an objective **quality gate** + per-cycle **Gate check result**.
-- `tbr/BEHAVE.md`
+- `.tbrpwn/tbr/BEHAVE.md`
   - Exactly **one smallest next step** (with verify + rollback).
   - Includes quality gate + Gate check result.
-- `tbr/REMEMBER.md`
+- `.tbrpwn/tbr/REMEMBER.md`
   - Minimal durable memory: facts, decisions, evidence pointers, blocker, risks.
   - Includes quality gate + Gate check result.
 
 ### Inner loop state (phase-local)
-- `pwn/level1/{PLAN,WORK,NOTE}.md` — Target phase PWN
-- `pwn/level2/{PLAN,WORK,NOTE}.md` — Behave phase PWN
-- `pwn/level3/{PLAN,WORK,NOTE}.md` — Remember phase PWN
+- `.tbrpwn/pwn/level1/{PLAN,WORK,NOTE}.md` — Target phase PWN
+- `.tbrpwn/pwn/level2/{PLAN,WORK,NOTE}.md` — Behave phase PWN
+- `.tbrpwn/pwn/level3/{PLAN,WORK,NOTE}.md` — Remember phase PWN
+
+### Per-cycle log (required)
+- `.tbrpwn/LOG.md` — append after each full outer cycle.
 
 Each level’s `WORK.md` contains a **merge-proof checklist** used as the merge audit trail.
 
@@ -96,15 +118,16 @@ Each level’s `WORK.md` contains a **merge-proof checklist** used as the merge 
 Repeat outer cycles until “Stop condition”.
 
 ### Outer cycle
-1) **Target phase**: run Level1 PWN until Level1 PLAN stabilizes → merge into `tbr/TARGET.md`, `tbr/BEHAVE.md`, `tbr/REMEMBER.md`.
-2) **Behave phase**: run Level2 PWN until Level2 PLAN stabilizes → merge into `tbr/BEHAVE.md`, `tbr/REMEMBER.md`.
-3) **Remember phase**: run Level3 PWN until Level3 PLAN stabilizes → merge into `tbr/REMEMBER.md`.
-4) **Derive next TARGET** using current `tbr/BEHAVE.md` + `tbr/REMEMBER.md`.
+1) **Target phase**: run Level1 PWN until Level1 PLAN stabilizes → merge into `.tbrpwn/tbr/TARGET.md`, `.tbrpwn/tbr/BEHAVE.md`, `.tbrpwn/tbr/REMEMBER.md`.
+2) **Behave phase**: run Level2 PWN until Level2 PLAN stabilizes → merge into `.tbrpwn/tbr/BEHAVE.md`, `.tbrpwn/tbr/REMEMBER.md`.
+3) **Remember phase**: run Level3 PWN until Level3 PLAN stabilizes → merge into `.tbrpwn/tbr/REMEMBER.md`.
+4) **Derive next TARGET** using current `.tbrpwn/tbr/BEHAVE.md` + `.tbrpwn/tbr/REMEMBER.md`.
+5) Append `.tbrpwn/LOG.md` for the completed cycle.
 
 ### Stop condition (objective)
 Stop only when both are true:
-- `tbr/TARGET.md` acceptance is complete (every acceptance checkbox has evidence).
-- A full outer cycle would not change `tbr/TARGET.md`.
+- `.tbrpwn/tbr/TARGET.md` acceptance is complete (every acceptance checkbox has evidence).
+- A full outer cycle would not change `.tbrpwn/tbr/TARGET.md`.
 
 ---
 
@@ -143,9 +166,9 @@ Each outer file contains its own “Quality gate (objective)” checklist.
 
 ### Per-cycle requirement
 Each outer cycle must record a **Gate check result** inside:
-- `tbr/TARGET.md`
-- `tbr/BEHAVE.md`
-- `tbr/REMEMBER.md`
+- `.tbrpwn/tbr/TARGET.md`
+- `.tbrpwn/tbr/BEHAVE.md`
+- `.tbrpwn/tbr/REMEMBER.md`
 
 ### Hard rule (do not violate)
 You may only claim “passes quality gate” if:
@@ -159,9 +182,9 @@ If evidence pointers are empty, the Gate check result must be `FAIL`.
 ## Merge rules (provable)
 
 When a level ends (PLAN stable), merge back into TBR and use the merge-proof checklist:
-- Level1 merge checklist: `pwn/level1/WORK.md`
-- Level2 merge checklist: `pwn/level2/WORK.md`
-- Level3 merge checklist: `pwn/level3/WORK.md`
+- Level1 merge checklist: `.tbrpwn/pwn/level1/WORK.md`
+- Level2 merge checklist: `.tbrpwn/pwn/level2/WORK.md`
+- Level3 merge checklist: `.tbrpwn/pwn/level3/WORK.md`
 
 Rule: If you cannot check an item honestly, do not check it. Fix the gap.
 
@@ -170,8 +193,8 @@ Rule: If you cannot check an item honestly, do not check it. Fix the gap.
 ## How to use this with an AI agent (suggested)
 
 - Open `agent.tbrpwn.md` and treat it as the agent’s system-level contract.
-- Keep `tbr/` as the only “source of truth”.
-- Use `pwn/` as disposable iteration state.
+- Keep `.tbrpwn/tbr/` as the only “source of truth”.
+- Use `.tbrpwn/pwn/` as disposable iteration state.
 - Make the agent include evidence pointers (file paths / command outputs) before marking anything “done”.
 
 ---
@@ -184,16 +207,16 @@ Rule: If you cannot check an item honestly, do not check it. Fix the gap.
 - Product: enforce spec → implement → verify; keep acceptance checkable.
 - Automation: enforce idempotency, external IDs, and audit evidence.
 
-See the matching `promote.tbrpwn.*.md` for the per-domain constraints.
+See the matching `promote/promote.tbrpwn.*.md` for the per-domain constraints.
 
 ---
 
 ## Where to customize
 
 If you copy this folder into a new project, typical customizations are:
-- Add repo-specific verification commands to `tbr/BEHAVE.md`.
-- Adjust acceptance items in `tbr/TARGET.md` for the project.
-- Keep `tbr/REMEMBER.md` short by compressing aggressively.
+- Add repo-specific verification commands to `.tbrpwn/tbr/BEHAVE.md`.
+- Adjust acceptance items in `.tbrpwn/tbr/TARGET.md` for the project.
+- Keep `.tbrpwn/tbr/REMEMBER.md` short by compressing aggressively.
 
 Avoid loosening the hard rules unless you also loosen acceptance expectations.
 

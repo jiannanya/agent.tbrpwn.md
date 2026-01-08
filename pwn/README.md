@@ -2,6 +2,10 @@
 
 PWN runs inside a single TBR phase to increase iteration capacity.
 
+Note:
+- The runtime state must be updated under `.tbrpwn/pwn/`.
+- The repo-root `pwn/` folder is template/reference.
+
 ## Files per level
 - `PLAN.md` — evolving plan; plan stabilizes → level ends
 - `WORK.md` — executable actions/artifacts
@@ -33,6 +37,9 @@ If PLAN is stable but WORK isn’t done, execute WORK and update NOTE.
 
 ## Merge
 When a level ends, merge durable decisions and evidence into TBR.
+
+## Per-cycle log
+- After completing Level1+Level2+Level3 and merging, append `.tbrpwn/LOG.md`.
 
 Quality gates (hard rule)
 - You may only claim “passes quality gate” if the file’s Gate check result is `PASS` AND the evidence pointers list is non-empty.

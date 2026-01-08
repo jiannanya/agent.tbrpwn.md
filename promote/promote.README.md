@@ -14,22 +14,31 @@ This is an AI agent loop promote project.
 - `promote.tbrpwn.research.md` — research
 - `promote.tbrpwn.product.md` — product delivery
 - `promote.tbrpwn.automation.md` — workflow automation
-- `tbr/` — outer loop state files
-- `pwn/` — inner loop state files (Level1/2/3)
+- `.tbrpwn/tbr/` — outer loop runtime state files
+- `.tbrpwn/pwn/` — inner loop runtime state files (Level1/2/3)
+- `.tbrpwn/LOG.md` — per-cycle append-only log
+
+Template/reference (do not edit during execution):
+- `tbr/`
+- `pwn/`
 
 ## Quick start
 1. Choose one promote file (start with `promote.tbrpwn.main.md`).
-2. User fills `tbr/TARGET.md` (init target).
+2. User fills `.tbrpwn/tbr/TARGET.md` (init target).
 3. Run outer cycles until done:
    - Target phase → Level1 PWN → merge to T/B/R
    - Behave phase → Level2 PWN → merge to B/R
    - Remember phase → Level3 PWN → merge to R
    - Derive next TARGET from current BEHAVE+REMEMBER
+4. After each full outer cycle, append `.tbrpwn/LOG.md`.
+
+Bootstrap:
+- If `.tbrpwn/` is missing, recreate it from the templates (`tbr/` and `pwn/`) or restore from VCS.
 
 ## Stop condition
 Stop only when:
-- `tbr/TARGET.md` acceptance is complete, and
-- a full outer cycle would not change `tbr/TARGET.md`.
+- `.tbrpwn/tbr/TARGET.md` acceptance is complete, and
+- a full outer cycle would not change `.tbrpwn/tbr/TARGET.md`.
 
 ## Anti-stall rule
 If a PLAN is stable but WORK is not done, execute WORK and update NOTE; do not keep “planning”.

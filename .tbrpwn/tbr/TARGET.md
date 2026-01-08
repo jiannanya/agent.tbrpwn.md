@@ -25,9 +25,9 @@
 - Result: <PASS|FAIL>
 - Checked against: <TARGET.vN>
 - Evidence pointers:
-	- <at least 1 file path / command output; if none, Result must be FAIL>
+  - <at least 1 file path / command output; if none, Result must be FAIL>
 - Notes (if FAIL, list what is missing):
-	- <missing gate item>
+  - <missing gate item>
 
 ---
 

@@ -9,11 +9,11 @@
 Iteratively improve BEHAVE and REMEMBER so the next execution step is minimal, safe, and verifiable.
 
 ### Inputs
-- `tbr/TARGET.md`
-- `tbr/BEHAVE.md`
-- `tbr/REMEMBER.md`
-- `pwn/level2/NOTE.md`
-- `pwn/level2/WORK.md`
+- `.tbrpwn/tbr/TARGET.md`
+- `.tbrpwn/tbr/BEHAVE.md`
+- `.tbrpwn/tbr/REMEMBER.md`
+- `.tbrpwn/pwn/level2/NOTE.md`
+- `.tbrpwn/pwn/level2/WORK.md`
 
 ### Plan (ordered)
 1. Ensure BEHAVE is the smallest step toward TARGET
@@ -38,5 +38,5 @@ If any box is unchecked, the PLAN is not stable.
 
 ### Merge output (when stable)
 Merge to:
-- `tbr/BEHAVE.md`
-- `tbr/REMEMBER.md`
+- `.tbrpwn/tbr/BEHAVE.md`
+- `.tbrpwn/tbr/REMEMBER.md`
