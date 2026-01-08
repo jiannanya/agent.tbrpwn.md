@@ -87,7 +87,7 @@ If you need to start fresh:
 ## Folder layout
 
 Runtime state location:
-- All execution updates must go under `.tbrpwn/`.
+- All execution with TBR PWN Loop updates must go under `.tbrpwn/`.
 - Repo-root `tbr/` and `pwn/` are templates/reference.
 
 ### Outer loop state (authoritative)

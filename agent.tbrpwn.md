@@ -127,7 +127,7 @@ Instead output:
 
 ## Bootstrapping the workspace (runtime)
 
-- During execution, write updates only under `.tbrpwn/`.
+- During execution, write TBR PWN Loop updates only under `.tbrpwn/`.
 - Treat repo-root `tbr/` and `pwn/` as templates/reference.
 
 If `.tbrpwn/` is missing:
@@ -172,7 +172,7 @@ Do not stop because work “feels complete”.
 - `promote/promote.tbrpwn.base.md` — global semantics + merge discipline.
 - Type-specific promotes (`promote/promote.tbrpwn.*.md`) — extra constraints for specific domains.
 
-**Rule:** Update files under `.tbrpwn/` during execution. Treat the repo-root `tbr/` and `pwn/` folders as templates/reference. When in doubt, update the outer files, not just PWN notes.
+**Rule:** Update TBR PWN files under `.tbrpwn/` during execution. Treat the repo-root `tbr/` and `pwn/` folders as templates/reference. When in doubt, update the outer TBR files, not just PWN notes.
 
 ---
 
