@@ -40,7 +40,8 @@
 
 ## Runtime location
 - Write execution updates under `.tbrpwn/tbr/` and `.tbrpwn/pwn/`.
-- Append `.tbrpwn/LOG.md` after each full outer cycle.
+- Always triage first (Lite vs Havy) and then run either `LiteCycle` or `OuterCycle` as defined in `agent.tbrpwn.impl.md`.
+- Append `.tbrpwn/LOG.md` after each completed cycle (`LiteCycle.vN` or `OuterCycle.vN`).
 
 ## Target update policy
 - If a step has side effects, require evidence and IDs before moving on.

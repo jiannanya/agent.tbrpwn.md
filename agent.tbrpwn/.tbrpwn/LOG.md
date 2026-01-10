@@ -4,10 +4,82 @@ This is an append-only log.
 
 Rules:
 
+- Append a `RequestTriage.vN` entry at the start of each user request.
+- If triage decides Lite, append a `LiteCycle.vN` entry.
+- If triage decides Havy, append an `OuterCycle.vN` entry (Havy OuterCycle).
 - Append a new `OuterCycle.vN` entry after each **full** outer cycle.
 - A cycle is not “completed” unless Level1, Level2, and Level3 were executed and merged.
 - Do not rewrite history. If you need to correct something, add an `Amendment.vN` entry.
 - Each cycle entry must be self-auditable: versions, verification, gates, evidence pointers.
+
+---
+
+## RequestTriage.v1
+
+- Timestamp:
+- Request summary (1–3 lines):
+- Decision: Lite / Havy
+- Reasons (max 3 bullets):
+  - (reason)
+- Files read:
+  - `.tbrpwn/tbr/TARGET.md`
+  - `.tbrpwn/tbr/BEHAVE.md`
+  - `.tbrpwn/tbr/REMEMBER.md`
+
+---
+
+## LiteCycle.v1
+
+- Cycle start timestamp:
+- Cycle end timestamp:
+- Summary (1–3 lines):
+
+### Versions updated (Lite)
+
+PWN versions:
+
+- Level2: PLAN.v? / WORK.v? / NOTE.v?
+
+TBR versions:
+
+- BEHAVE.v?
+- REMEMBER.v?
+
+Conditional (only if changed):
+
+- TARGET.v?
+
+### Required file proof (Lite minimum)
+
+- [ ] `.tbrpwn/pwn/level2/PLAN.md` -> PLAN.v?
+- [ ] `.tbrpwn/pwn/level2/WORK.md` -> WORK.v?
+- [ ] `.tbrpwn/pwn/level2/NOTE.md` -> NOTE.v?
+- [ ] `.tbrpwn/tbr/BEHAVE.md` -> BEHAVE.v?
+- [ ] `.tbrpwn/tbr/REMEMBER.md` -> REMEMBER.v?
+- [ ] `.tbrpwn/LOG.md` -> LiteCycle.v?
+
+Conditional (only if changed):
+
+- [ ] `.tbrpwn/tbr/TARGET.md` -> TARGET.v?
+
+### Lite execution checklist
+
+- [ ] Level2 PWN executed; updated `.tbrpwn/pwn/level2/{PLAN,WORK,NOTE}.md`
+- [ ] Level2 merged into `.tbrpwn/tbr/{BEHAVE,REMEMBER}.md`
+- [ ] Gate check results recorded in any updated TBR files
+- [ ] Verification executed (or explicitly marked impossible with reason)
+- [ ] This LiteCycle entry is appended (no rewriting)
+
+### Verification
+
+- Command/check:
+  - Expected pass signal:
+  - Result: PASS / FAIL
+  - Output pointer: (file path / pasted excerpt)
+
+### Evidence pointers (top-level) — LiteCycle
+
+- (file path / command output)
 
 ---
 
@@ -112,7 +184,7 @@ Copy the results and evidence pointers from the Gate check result blocks.
 
   - (what was added/removed)
 
-### Evidence pointers (top-level)
+### Evidence pointers (top-level) — OuterCycle
 
 - (file path / command output)
 

@@ -1,6 +1,13 @@
-# agent.tbrpwn.md — AI Agent Promote (TBR-PWN)
+# agent.tbrpwn.impl.md — AI Agent Contract (Lite + Havy TBR-PWN)
 
 You are an AI agent operating in this repository using the **TBR-PWN** promote engineering workflow.
+
+This contract defines two execution modes:
+
+- **Lite TBR PWN Loop** — optimized for simple, low-risk, small-scope requests.
+- **Havy TBR PWN Loop** — the existing strict full-cycle workflow (formerly the default TBR-PWN loop).
+
+Every request must be routed through a Lite triage first, then you must run **either** Lite or Havy accordingly.
 
 - **Outer loop (TBR):** stable, minimal, file-driven state.
 - **Inner loop (PWN):** iterative Plan→Work→Note inside each phase until the plan converges.
@@ -21,15 +28,125 @@ If a requirement conflicts with this contract, surface the conflict and ask the 
 
 ---
 
-## 0.1) Per-request execution contract (hard)
+## 0.1) Per-request routing contract (hard)
 
 This repository is designed for **tool-capable agents** (VS Code Copilot Agent / Claude Code / similar) that can read and write workspace files.
 
-**Hard rule:** For every user request that asks you to “do work” (code, docs, automation, debugging, research), you must execute and complete **exactly one full OuterCycle** and **persist it to disk** under `.tbrpwn/`.
+**Hard rule:** For every user request that asks you to “do work” (code, docs, automation, debugging, research), you must:
 
-An answer is considered **invalid** unless the cycle is completed and the required files below have been updated.
+1) Run the **Lite triage** (Section 0.2) and record the decision.
+2) If the request is **Lite**, run **one LiteCycle** (Section 0.3) and persist it to disk.
+3) If the request is **Havy**, run **exactly one full Havy OuterCycle** (existing workflow; Section 0.4) and persist it to disk.
 
-### Definition: “One full OuterCycle” (must all be true)
+An answer is considered **invalid** unless the chosen cycle is completed and the required files below have been updated.
+
+Important:
+- Lite requests must NOT be forced through the Havy full OuterCycle.
+- Havy requests must NOT be “under-executed” using Lite.
+
+---
+
+## 0.2) Lite triage (decide Lite vs Havy)
+
+You must decide Lite vs Havy at the start of every request.
+
+### Inputs (must read)
+
+- The user request.
+- `.tbrpwn/tbr/TARGET.md`, `.tbrpwn/tbr/BEHAVE.md`, `.tbrpwn/tbr/REMEMBER.md`.
+
+### Decision rule
+
+Classify as **Havy** if ANY of the following are true:
+
+- Touches many files or multiple subsystems (roughly: >3 files or >1 subsystem).
+- Requires non-trivial design decisions, refactors, or new architecture.
+- Involves debugging with uncertain root cause.
+- Has meaningful safety/compliance/security risk.
+- Requires new tests/build steps or could easily break the repo.
+- The user’s goal includes “framework”, “scaffold”, “end-to-end”, “optimize”, “harden”, “refactor”, “benchmark”, etc.
+
+Otherwise classify as **Lite**.
+
+### Required triage record (must persist)
+
+Append a `RequestTriage.vN` entry to `.tbrpwn/LOG.md` containing:
+
+- Request summary (1–3 lines)
+- Decision: `Lite` or `Havy`
+- Reasons (3 bullets max)
+- Which files you read
+
+If you cannot append to `.tbrpwn/LOG.md`, output `BLOCKED`.
+
+---
+
+## 0.3) Lite TBR PWN Loop (LiteCycle)
+
+Lite is a **Behave-centric** micro-cycle intended for simple tasks.
+
+### LiteCycle definition (must all be true)
+
+- Uses **Level2 PWN only** (Behave phase): `.tbrpwn/pwn/level2/{PLAN,WORK,NOTE}.md`.
+- Updates `.tbrpwn/tbr/BEHAVE.md` (one smallest step) and `.tbrpwn/tbr/REMEMBER.md` (evidence + decisions).
+- Updates `.tbrpwn/tbr/TARGET.md` only if acceptance/constraints truly changed.
+- Records Gate check results in any TBR file you updated.
+- Appends a `LiteCycle.vN` entry to `.tbrpwn/LOG.md`.
+
+### Required on-disk updates (Lite minimum)
+
+You must update all of the following:
+
+- `.tbrpwn/pwn/level2/PLAN.md`
+- `.tbrpwn/pwn/level2/WORK.md`
+- `.tbrpwn/pwn/level2/NOTE.md`
+- `.tbrpwn/tbr/BEHAVE.md`
+- `.tbrpwn/tbr/REMEMBER.md`
+- `.tbrpwn/LOG.md`
+
+And conditionally:
+
+- `.tbrpwn/tbr/TARGET.md` (only if it truly changes)
+
+### Lite completion proof (copy/paste)
+
+For Lite, include this checklist in both the `LiteCycle.vN` log entry and your final response:
+
+```text
+LiteCycle appended: LiteCycle.v?
+
+Required files updated (Lite minimum):
+- [ ] .tbrpwn/pwn/level2/PLAN.md -> PLAN.v?
+- [ ] .tbrpwn/pwn/level2/WORK.md -> WORK.v?
+- [ ] .tbrpwn/pwn/level2/NOTE.md -> NOTE.v?
+- [ ] .tbrpwn/tbr/BEHAVE.md -> BEHAVE.v?
+- [ ] .tbrpwn/tbr/REMEMBER.md -> REMEMBER.v?
+- [ ] .tbrpwn/LOG.md -> LiteCycle.v?
+
+Conditional (only if changed):
+- [ ] .tbrpwn/tbr/TARGET.md -> TARGET.v?
+```
+
+### LiteCycle runbook (mandatory)
+
+1) Update Level2 `PLAN` (max 2 iterations), ensuring verification + rollback exist.
+2) Do the smallest WORK that makes progress and is verifiable.
+3) Update NOTE with objective outputs (files/commands/results).
+4) Merge into BEHAVE (one step only) and REMEMBER (durable evidence).
+5) Record Gate check result blocks in updated TBR files.
+6) Append `LiteCycle.vN` to `.tbrpwn/LOG.md`.
+
+If at any point the task expands beyond Lite scope, immediately reclassify as Havy and switch to Section 0.4.
+
+---
+
+## 0.4) Havy TBR PWN Loop (Havy OuterCycle)
+
+Havy is the original strict TBR-PWN workflow: run Level1 + Level2 + Level3 and merge into TBR.
+
+If (and only if) the triage decision is **Havy**, the remainder of this document defines the Havy contract.
+
+### Definition: “One full Havy OuterCycle” (must all be true)
 
 - Level1 PWN executed and merged.
 - Level2 PWN executed and merged.
@@ -53,7 +170,7 @@ If a phase genuinely produces “no change”, you must still append a new versi
 
 ### Version bump rule (anti-stall, anti-pretend)
 
-For each full outer cycle you complete, you must ensure the cycle produces a new version in each required file:
+For each full Havy outer cycle you complete, you must ensure the cycle produces a new version in each required file:
 
 - In `.tbrpwn/tbr/{TARGET,BEHAVE,REMEMBER}.md`, append a new top-level `TARGET.vN` / `BEHAVE.vN` / `REMEMBER.vN` section.
 - In each PWN file, append a new `PLAN.vN` / `WORK.vN` / `NOTE.vN` section.
@@ -80,7 +197,7 @@ To prevent “the agent said it updated files but didn’t”, every completed c
 
 If you cannot provide this proof, treat the cycle as incomplete and output `BLOCKED`.
 
-#### Required file proof template (copy/paste)
+#### Havy required file proof template (copy/paste)
 
 Every completed outer cycle must include this exact checklist (filled) in both:
 
@@ -90,7 +207,7 @@ Every completed outer cycle must include this exact checklist (filled) in both:
 Fill each line with the latest version tag you wrote in that file.
 
 ```text
-OuterCycle appended: OuterCycle.v?
+HavyOuterCycle appended: OuterCycle.v?
 
 Required files updated (must be all 13):
 - [ ] .tbrpwn/tbr/TARGET.md -> TARGET.v?
@@ -118,7 +235,7 @@ If you cannot read/write `.tbrpwn/*` (missing workspace, permissions, tools disa
 
 Instead output:
 
-- `BLOCKED: cannot complete OuterCycle`
+- `BLOCKED: cannot complete Havy OuterCycle`
 - Reason (one line)
 - What you need from the user (one line)
 - Which required files could not be read/written (list)
@@ -127,7 +244,7 @@ Instead output:
 
 ## Bootstrapping the workspace (runtime)
 
-- During execution, write TBR PWN Loop updates only under `.tbrpwn/`.
+- During execution, write Lite + Havy TBR-PWN updates only under `.tbrpwn/`.
 - Treat repo-root `tbr/` and `pwn/` as templates/reference.
 
 If `.tbrpwn/` is missing:

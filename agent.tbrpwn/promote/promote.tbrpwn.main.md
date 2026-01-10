@@ -1,7 +1,10 @@
 # promote.tbrpwn.main.md — TBR-PWN (Entry Point)
 
 Optional (more detailed):
-- `agent.tbrpwn.md` — detailed AI agent operating contract (TBR-PWN)
+- `agent.tbrpwn.impl.md` — detailed AI agent operating contract (Lite + Havy TBR-PWN)
+
+Routing rule:
+- Every request must run Lite triage first, then run either `LiteCycle` or `OuterCycle` (Havy) as defined in `agent.tbrpwn.impl.md`.
 
 ## Pick ONE type-specific promote
 - Generic: `promote.tbrpwn.base.md`

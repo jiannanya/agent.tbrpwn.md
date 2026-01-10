@@ -58,11 +58,13 @@ This folder is designed to be copied into a project and used as the operational 
 
 ## Start here
 
+1) Simple Agent predefied: `agent.tbrpwn.md`
+
+1) Routing rule (mandatory): for each request, triage first (Lite vs Havy), then run either `LiteCycle` or `OuterCycle` as defined in `agent.tbrpwn/agent.tbrpwn.impl.md`
+
 1) Read the entry point: `promote/promote.tbrpwn.main.md`
 
-1) Routing rule (mandatory): for each request, triage first (Lite vs Havy), then run either `LiteCycle` or `OuterCycle` as defined in `agent.tbrpwn.impl.md`
-
-1) Or if you want the full operating contract (recommended for agents), read: `agent.tbrpwn.impl.md`
+1) Or if you want the full operating contract (recommended for agents), read: `agent.tbrpwn/agent.tbrpwn.impl.md`
 
 1) Or choose exactly one type-specific promote:
 
